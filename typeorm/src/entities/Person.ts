@@ -1,6 +1,6 @@
 import { Column, Entity, Table, TableInheritance } from "typeorm";
-import { Name } from "./Name";
-import Address from "./Address";
+import { Name } from "./embedded/Name";
+import Address from "./embedded/Address";
 
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' }})

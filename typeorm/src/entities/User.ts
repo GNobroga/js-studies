@@ -9,4 +9,7 @@ export default class User extends Person {
 
     @Column()
     email: string;
-}
+
+    @Column()
+    password: string;
+} 
