@@ -5,11 +5,12 @@ import User from '../entities/User';
 import UserView from "../view-entities/UserView";
 import Post from "../entities/Post";
 import PostSubscriber from "../subscribers/PostSubscriber";
+import Comment from "../entities/Comment";
 
 export const AppDataSource = new DataSource({
     type: 'sqlite',
     database: 'typeorm.db',
-    entities: [User, Admin, Person, UserView, Post],
+    entities: [User, Admin, Person, UserView, Post, Comment],
     logging: true,
     migrationsTableName: 'migration',
     migrations: [

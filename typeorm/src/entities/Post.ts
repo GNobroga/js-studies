@@ -1,5 +1,5 @@
-import { AfterInsert, AfterRecover, BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-
+import { AfterRecover, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import Comment from './Comment';
 @Entity({
     name: 'post',
 })
@@ -13,6 +13,9 @@ export default class Post {
 
     @Column()
     description: string;
+
+    @OneToMany(() => Comment, type => type.post, { cascade: ['insert', 'recover'], eager: true })
+    comments: Comment[];
 
     @AfterRecover() 
     onRecover() {

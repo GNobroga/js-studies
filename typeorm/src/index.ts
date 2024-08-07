@@ -1,10 +1,5 @@
 import 'reflect-metadata';
 import { AppDataSource } from './database';
-import User from './entities/User';
-import Admin from './entities/Admin';
-import { Name } from './entities/embedded/Name';
-import Address from './entities/embedded/Address';
-import UserView from './view-entities/UserView';
 import Post from './entities/Post';
 
 (async function() {
@@ -35,20 +30,43 @@ import Post from './entities/Post';
 
 //    (await AppDataSource.manager.find(UserView)).forEach(console.log);
 
-    // await AppDataSource.manager.createQueryBuilder()
-    //     .insert()
-    //     .into(Post)
-    //     .values({
-    //         title: 'First Post',
-    //         description: 'Mamushi',
-    //     }).execute();
+    await AppDataSource.manager.createQueryBuilder()
+        .insert()
+        .into(Post)
+        .values({
+            title: 'First Post',
+            description: 'Mamushi',
+        }).execute();
 
-    await AppDataSource.getRepository(Post).findOne({
+    const post = await AppDataSource.getRepository(Post).findOne({
         where: {
             id: 1,
         },
     });
 
+    AppDataSource.manager.createQueryBuilder()
+       .relation(Post, 'comments')
+       .of(post)
+       .add([
+            {
+                description: 'Olá, mundo!',
+            },
+            {
+                description: 'Hello World!',
+            },
+       ]);
+
+
+    const postRecovered = await AppDataSource.getRepository(Post).findOne({
+        where: {
+            id: 1,
+        },
+    });
+
+    console.log('Post recovered')
+    postRecovered.comments?.forEach(comment => {
+        console.table(comment);
+    });
 })();
 
 
