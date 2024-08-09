@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
     logging: true,
     migrationsTableName: 'migration',
     migrations: [
-        './dist/migrations/**/*.js',
+            './dist/migrations/**/*.js',
     ],
     subscribers: [PostSubscriber],
     //synchronize: true,

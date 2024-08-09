@@ -30,42 +30,55 @@ import Post from './entities/Post';
 
 //    (await AppDataSource.manager.find(UserView)).forEach(console.log);
 
-    await AppDataSource.manager.createQueryBuilder()
-        .insert()
-        .into(Post)
-        .values({
-            title: 'First Post',
-            description: 'Mamushi',
-        }).execute();
+    // await AppDataSource.manager.createQueryBuilder()
+    //     .insert()
+    //     .into(Post)
+    //     .values({
+    //         title: 'First Post',
+    //         description: 'Mamushi',
+    //     }).execute();
 
-    const post = await AppDataSource.getRepository(Post).findOne({
-        where: {
-            id: 1,
-        },
-    });
+    // const post = await AppDataSource.getRepository(Post).findOne({
+    //     where: {
+    //         id: 1,
+    //     },
+    // });
 
-    AppDataSource.manager.createQueryBuilder()
-       .relation(Post, 'comments')
-       .of(post)
-       .add([
-            {
-                description: 'Olá, mundo!',
-            },
-            {
-                description: 'Hello World!',
-            },
-       ]);
+    // AppDataSource.manager.createQueryBuilder()
+    //    .relation(Post, 'comments')
+    //    .of(post)
+    //    .add([
+    //         {
+    //             description: 'Olá, mundo!',
+    //         },
+    //         {
+    //             description: 'Hello World!',
+    //         },
+    //    ]);
 
 
-    const postRecovered = await AppDataSource.getRepository(Post).findOne({
-        where: {
-            id: 1,
-        },
-    });
+    // const postRecovered = await AppDataSource.getRepository(Post).findOne({
+    //     where: {
+    //         id: 1,
+    //     },
+    // });
 
-    console.log('Post recovered')
-    postRecovered.comments?.forEach(comment => {
-        console.table(comment);
+    // console.log('Post recovered')
+    // postRecovered.comments?.forEach(comment => {
+    //     console.table(comment);
+    // });
+
+    const post = {
+        title: 'Today ' + new Date().toLocaleString(),
+        description: 'Coffee is very good.',
+    } as Post;
+
+    AppDataSource.manager.transaction(async entityManager => {
+        try {
+            await entityManager.save(Post, post);
+        } catch (error) {
+            console.log(error);
+        }
     });
 })();
 
